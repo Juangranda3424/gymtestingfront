@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Inscripciones</h2>
+  <button class="btn btn-primary" (click)="navigateToCreate()">Crear Nueva</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Fecha Inscripción</th><th>Cliente</th><th>Clase</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inscription of inscriptions">
+        <td>{{inscription.id_inscripcion}}</td>
+        <td>{{inscription.fecha_inscripcion}}</td>
+        <td>{{inscription.cliente_nombre}} {{inscription.cliente_apellido}}</td>
+        <td>{{inscription.nombre_clase}}</td>
+        <td>
+          <button class="btn btn-warning" (click)="edit(inscription.id_inscripcion)">Editar</button>
+          <button class="btn btn-danger" (click)="delete(inscription.id_inscripcion)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

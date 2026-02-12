@@ -1,0 +1,7 @@
+main {
+	min-height: calc(100vh - 56px);
+}
+
+.navbar .nav-link.active {
+	font-weight: 600;
+}

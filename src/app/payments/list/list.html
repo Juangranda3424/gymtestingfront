@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Pagos</h2>
+  <button class="btn btn-primary" (click)="navigateToCreate()">Crear Nuevo</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Fecha Pago</th><th>Monto</th><th>Cliente</th><th>Membresía</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let payment of payments">
+        <td>{{payment.id_pago}}</td>
+        <td>{{payment.fecha_pago}}</td>
+        <td>{{payment.monto}}</td>
+        <td>{{payment.cliente_nombre}} {{payment.cliente_apellido}}</td>
+        <td>{{payment.membresia_tipo}} ({{payment.membresia_precio}})</td>
+        <td>
+          <button class="btn btn-warning" (click)="edit(payment.id_pago)">Editar</button>
+          <button class="btn btn-danger" (click)="delete(payment.id_pago)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

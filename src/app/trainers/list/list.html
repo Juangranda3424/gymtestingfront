@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Entrenadores</h2>
+  <button class="btn btn-primary" (click)="navigateToCreate()">Crear Nuevo</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Nombre</th><th>Apellido</th><th>Email</th><th>Teléfono</th><th>Especialidad</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trainer of trainers">
+        <td>{{trainer.id_entrenador}}</td>
+        <td>{{trainer.nombre}}</td>
+        <td>{{trainer.apellido}}</td>
+        <td>{{trainer.email}}</td>
+        <td>{{trainer.telefono}}</td>
+        <td>{{trainer.especialidad}}</td>
+        <td>
+          <button class="btn btn-warning" (click)="edit(trainer.id_entrenador)">Editar</button>
+          <button class="btn btn-danger" (click)="delete(trainer.id_entrenador)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

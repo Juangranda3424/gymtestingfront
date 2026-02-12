@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>{{ isEdit ? 'Editar Inscripción' : 'Crear Inscripción' }}</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label>Cliente</label>
+      <select formControlName="id_cliente" class="form-control">
+        <option *ngFor="let client of clients" [value]="client.id_cliente">{{client.nombre}} {{client.apellido}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Clase</label>
+      <select formControlName="id_clase" class="form-control">
+        <option *ngFor="let cls of classes" [value]="cls.id_clase">{{cls.nombre_clase}}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+  </form>
+</div>

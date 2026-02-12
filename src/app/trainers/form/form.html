@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>{{ isEdit ? 'Editar Entrenador' : 'Crear Entrenador' }}</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label>Nombre</label>
+      <input formControlName="nombre" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Apellido</label>
+      <input formControlName="apellido" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input formControlName="email" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Teléfono</label>
+      <input formControlName="telefono" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Especialidad</label>
+      <input formControlName="especialidad" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Fecha de Contratación</label>
+      <input type="date" formControlName="fecha_contratacion" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+  </form>
+</div>

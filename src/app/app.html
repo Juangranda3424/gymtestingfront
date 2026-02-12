@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container">
+		<a class="navbar-brand" routerLink="/">Gym</a>
+		<div class="navbar-nav gap-2">
+			<a class="nav-link" routerLink="/clients" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Clientes</a>
+			<a class="nav-link" routerLink="/trainers" routerLinkActive="active">Entrenadores</a>
+			<a class="nav-link" routerLink="/classes" routerLinkActive="active">Clases</a>
+			<a class="nav-link" routerLink="/memberships" routerLinkActive="active">Membresías</a>
+			<a class="nav-link" routerLink="/inscriptions" routerLinkActive="active">Inscripciones</a>
+			<a class="nav-link" routerLink="/payments" routerLinkActive="active">Pagos</a>
+		</div>
+	</div>
+ </nav>
+
+<main class="container py-3">
+	<router-outlet />
+ </main>
