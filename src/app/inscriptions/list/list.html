@@ -20,7 +20,7 @@
       </tr>
     </tbody>
   </table>
-  <nav aria-label="Page navigation" class="d-flex justify-content-end">
+  <nav *ngIf="totalPages > 1" aria-label="Page navigation" class="d-flex justify-content-end">
     <ul class="pagination">
       <li class="page-item" [class.disabled]="currentPage === 1">
         <a class="page-link" (click)="previousPage()" aria-label="Previous">
