@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let inscription of inscriptions">
+      <tr *ngFor="let inscription of paginatedInscriptions">
         <td>{{inscription.id_inscripcion}}</td>
         <td>{{inscription.fecha_inscripcion}}</td>
         <td>{{inscription.cliente_nombre}} {{inscription.cliente_apellido}}</td>
@@ -20,4 +20,21 @@
       </tr>
     </tbody>
   </table>
+  <nav aria-label="Page navigation" class="d-flex justify-content-end">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="previousPage()" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of visiblePages" [class.active]="page === currentPage">
+        <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="nextPage()" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>

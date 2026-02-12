@@ -54,8 +54,8 @@ describe('Form Component - Frontend Unit Tests', () => {
     dia_semana: 'Martes',
     id_entrenador: 1
   };
-
-  beforeEach(async () => {
+  // Datos válidos reutilizables
+  beforeEach(async () => {    //Configuramos el entorno de pruebas para el componente Form
     await TestBed.configureTestingModule({
       imports: [Form],
       providers: [
@@ -83,21 +83,22 @@ describe('Form Component - Frontend Unit Tests', () => {
     // Prevent ngOnInit from making real HTTP calls during component initialization
     spyOn(trainersService, 'getAll').and.returnValue(of([]));
   });
+  // verificamos que el componente "Clases" nazca con las condiciones mínimas necesarias.
 
   // 1. El componente se crea correctamente
   it('should create the component', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy(); //Confirmamos que el componente existe en memoria
   });
 
   // 2. El formulario reactivo se inicializa correctamente
   it('should create the form group', () => {
-    expect(component.form).toBeDefined();
-    expect(component.form.valid).toBeFalsy();
+    expect(component.form).toBeDefined(); //Verificamos que el formulario esté definido
+    expect(component.form.valid).toBeFalsy();  //El formulario debe ser inválido al inicio
   });
 
   // 3. El formulario debe ser inválido cuando está vacío
   it('should be invalid when form is empty', () => {
-    expect(component.form.valid).toBe(false);
+    expect(component.form.valid).toBe(false); //aqui tobe(false) verificar que el formulario este invalido cuando esta vacio
   });
 
   // 4. El formulario es válido cuando se completan los campos requeridos
@@ -107,22 +108,22 @@ describe('Form Component - Frontend Unit Tests', () => {
   });
 
   // 5. La lista de días válidos existe y contiene valores esperados
-  it('should define validDays correctly', () => {
-    expect(component.validDays.length).toBeGreaterThan(0);
-    expect(component.validDays).toContain('Lunes');
+  it('should define validDays correctly', () => {   //Verificamos que la lista de días válidos esté definida correctamente
+    expect(component.validDays.length).toBeGreaterThan(0);  //comprobamos el arreglo validDays esté poblado
+    expect(component.validDays).toContain('Lunes'); // Esto asegura que el usuario siempre tenga opciones para elegir en el formulario.
   });
 
   // 6. El nombre de la clase debe cumplir un patrón básico (solo letras)
-  it('should match class name pattern', () => {
-    component.form.patchValue({ nombre_clase: 'Pilates' });
-    expect(component.form.value.nombre_clase).toMatch(/^[A-Za-z]+$/);
+  it('should match class name pattern', () => { //usamos una expresión regular para asegurar queel nombre de la clase (ej. "Pilates")
+    component.form.patchValue({ nombre_clase: 'Pilates' });  //solo contenga letras.
+    expect(component.form.value.nombre_clase).toMatch(/^[A-Za-z]+$/); //evita que se guarden caracteres extraños y coincida con el patrón esperado.
   });
 
   // 7. El botón Guardar debe estar deshabilitado cuando el formulario es inválido
   it('should disable submit button when form is invalid', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    const button = compiled.querySelector(
+    const button = compiled.querySelector(    //querySelector busca en el DOM el botón de submit
       'button[type="submit"]'
     ) as HTMLButtonElement;
 
@@ -135,7 +136,7 @@ describe('Form Component - Frontend Unit Tests', () => {
 
     component.cancel();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/classes']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/classes']); //Verificamos que la navegación se haya realizado a la ruta correcta
   });
 
   // 9. ngOnInit debe cargar la lista de entrenadores

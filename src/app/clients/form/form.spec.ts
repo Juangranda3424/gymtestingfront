@@ -58,7 +58,7 @@ describe('Client Form Component - Frontend Unit Tests', () => {
     fixture.detectChanges();
   });
 
-  // 1. El componente se crea correctamente
+  // 1. El componente se crea correctamente y comprobamos que se cargo correctamente en la pagina
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });

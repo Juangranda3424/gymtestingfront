@@ -144,4 +144,160 @@ describe('List Component - Payments', () => {
     expect(confirmSpy).not.toHaveBeenCalled();
     expect(service.delete).not.toHaveBeenCalled();
   });
+
+  // --- PAGINATION TESTS ---
+
+  // 13. Paginación: debe devolver el número correcto de páginas totales
+  it('should calculate total pages correctly', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    expect(component.totalPages).toBe(3);
+  });
+
+  // 14. Paginación: debe devolver solo los elementos de la página actual
+  it('should return paginated payments for current page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 1;
+    expect(component.paginatedPayments.length).toBe(5);
+    expect(component.paginatedPayments[0].id_pago).toBe(1);
+  });
+
+  // 15. Paginación: debe devolver elementos de la página 2
+  it('should return payments for page 2', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 2;
+    expect(component.paginatedPayments.length).toBe(5);
+    expect(component.paginatedPayments[0].id_pago).toBe(6);
+  });
+
+  // 16. Paginación: debe devolver elementos de la última página
+  it('should return payments for last page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 3;
+    expect(component.paginatedPayments.length).toBe(2);
+    expect(component.paginatedPayments[0].id_pago).toBe(11);
+  });
+
+  // 17. Paginación: debe generar array con todos los números de página
+  it('should generate pages array', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    expect(component.pages).toEqual([1, 2, 3]);
+  });
+
+  // 18. Paginación: debe mostrar todas las páginas si hay 5 o menos
+  it('should show all pages when total pages <= 5', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    expect(component.visiblePages).toEqual([1, 2, 3]);
+  });
+
+  // 19. Paginación: debe mostrar las primeras 5 páginas si está al inicio
+  it('should show first 5 pages when near start', () => {
+    component.payments = Array(30).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 2;
+    expect(component.visiblePages).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  // 20. Paginación: debe mostrar las últimas 5 páginas si está al final
+  it('should show last 5 pages when near end', () => {
+    component.payments = Array(30).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 5;
+    expect(component.visiblePages).toEqual([2, 3, 4, 5, 6]);
+  });
+
+  // 21. Paginación: debe navegar a una página específica válida
+  it('should navigate to specific valid page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.goToPage(2);
+    expect(component.currentPage).toBe(2);
+  });
+
+  // 22. Paginación: no debe navegar a página inválida (menor que 1)
+  it('should not navigate to invalid page < 1', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 2;
+    component.goToPage(0);
+    expect(component.currentPage).toBe(2);
+  });
+
+  // 23. Paginación: no debe navegar a página inválida (mayor que totalPages)
+  it('should not navigate to invalid page > totalPages', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 2;
+    component.goToPage(10);
+    expect(component.currentPage).toBe(2);
+  });
+
+  // 24. Paginación: debe retroceder a la página anterior
+  it('should go to previous page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 2;
+    component.previousPage();
+    expect(component.currentPage).toBe(1);
+  });
+
+  // 25. Paginación: no debe retroceder si ya está en la primera página
+  it('should not go before first page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 1;
+    component.previousPage();
+    expect(component.currentPage).toBe(1);
+  });
+
+  // 26. Paginación: debe avanzar a la página siguiente
+  it('should go to next page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 1;
+    component.nextPage();
+    expect(component.currentPage).toBe(2);
+  });
+
+  // 27. Paginación: no debe avanzar si ya está en la última página
+  it('should not go beyond last page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 3;
+    component.nextPage();
+    expect(component.currentPage).toBe(3);
+  });
+
+  // 28. Paginación: totalPages debe ser 0 si no hay pagos
+  it('should have 0 total pages when no payments', () => {
+    component.payments = [];
+    expect(component.totalPages).toBe(0);
+  });
+
+  // 29. Paginación: paginatedPayments debe estar vacío si no hay pagos
+  it('should return empty array when no payments', () => {
+    component.payments = [];
+    expect(component.paginatedPayments).toEqual([]);
+  });
+
+  // 30. Paginación: debe manejar exactamente pageSize elementos
+  it('should handle exactly pageSize payments', () => {
+    component.payments = Array(5).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    expect(component.totalPages).toBe(1);
+    expect(component.paginatedPayments.length).toBe(5);
+  });
+
+  // 31. Paginación: debe navegar a la página 1 correctamente
+  it('should navigate to page 1', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 3;
+    component.goToPage(1);
+    expect(component.currentPage).toBe(1);
+  });
+
+  // 32. Paginación: debe navegar a la última página correctamente
+  it('should navigate to last page', () => {
+    component.payments = Array(12).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 1;
+    component.goToPage(3);
+    expect(component.currentPage).toBe(3);
+  });
+
+  // 33. Paginación: visiblePages debe manejar correctamente 6 páginas totales
+  it('should handle visible pages with 6 total pages', () => {
+    component.payments = Array(30).fill(null).map((_, i) => ({ id_pago: i + 1 } as Payment));
+    component.currentPage = 6;
+    expect(component.visiblePages).toEqual([2, 3, 4, 5, 6]);
+    expect(component.visiblePages.length).toBe(5);
+  });
 });

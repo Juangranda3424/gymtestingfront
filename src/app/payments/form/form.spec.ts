@@ -36,7 +36,7 @@ describe('Payment Form', () => {
     id_membresia: 1,
     monto: 50,
   } as Payment;
-
+  // Configuración del entorno de pruebas
   beforeEach(async () => {
     paymentsService = jasmine.createSpyObj('Payments', ['getById', 'create', 'update']);
     clientsService = jasmine.createSpyObj('Clients', ['getAll']);
@@ -63,7 +63,7 @@ describe('Payment Form', () => {
         { provide: ActivatedRoute, useValue: activatedRoute },
       ],
     }).compileComponents();
-
+    // Crear el componente y detectar cambios iniciales
     fixture = TestBed.createComponent(Form);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
@@ -76,7 +76,7 @@ describe('Payment Form', () => {
   });
 
   // 2. Los clientes y membresías se cargan correctamente al inicializar
-  it('should load clients and memberships on init', () => {
+  it('should load clients and memberships on init', () => { // Ajustar el espía para simular la obtención de un pago
     expect(clientsService.getAll).toHaveBeenCalled();
     expect(membershipsService.getAll).toHaveBeenCalled();
     expect(component.clients.length).toBe(1);
@@ -94,9 +94,9 @@ describe('Payment Form', () => {
       monto: 50,
     });
 
-    component.submit();
+    component.submit(); // Llamar al método submit
 
-    expect(paymentsService.create).toHaveBeenCalled();
+    expect(paymentsService.create).toHaveBeenCalled();  // Verificar que se llamó al servicio de creación
     expect(spy).toHaveBeenCalledWith(['/payments']);
   });
 
@@ -115,11 +115,11 @@ describe('Payment Form', () => {
 
     component.submit();
 
-    expect(paymentsService.update).toHaveBeenCalledWith(1, {
+    expect(paymentsService.update).toHaveBeenCalledWith(1, {  // Verificar que se llamó al servicio de actualización con los datos correctos
       id_membresia: 1,
       monto: 60,
     });
-    expect(spy).toHaveBeenCalledWith(['/payments']);
+    expect(spy).toHaveBeenCalledWith(['/payments']);  // Verificar navegación después de la actualización
   });
 
   // 5. Cancelar debe navegar a /payments
@@ -133,13 +133,13 @@ describe('Payment Form', () => {
 
   // 6. Validación del campo monto
   it('should validate monto field correctly', () => {
-    const montoControl = component.form.get('monto');
+    const montoControl = component.form.get('monto'); // Obtener el control del campo monto
 
     montoControl?.setValue(-10);
     expect(montoControl?.errors?.['min']).toBeDefined();
 
     montoControl?.setValue(100);
-    expect(montoControl?.value).toEqual(100);
+    expect(montoControl?.value).toEqual(100); // Verificar valor válido
     expect(montoControl?.value).toBeGreaterThan(0);
   });
 
@@ -155,14 +155,14 @@ describe('Payment Form', () => {
   });
 
   // 8. Formulario válido con todos los campos correctos
-  it('should be valid when all required fields are filled', () => {
-    component.form.setValue({
+  it('should be valid when all required fields are filled', () => { // Establecer valores válidos
+    component.form.setValue({ // Establecer valores válidos
       id_cliente: 1,
       id_membresia: 1,
       monto: 50,
     });
 
-    expect(component.form.valid).toBeTrue();
+    expect(component.form.valid).toBeTrue();  // Verificar que el formulario es válido
   });
 
   // 9. No debe enviar el formulario si es inválido
